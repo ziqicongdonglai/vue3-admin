@@ -1,4 +1,6 @@
 module.exports = {
+  // 每行最多多少个字符换行
+  printWidth: 120,
   // 不尾随分号
   semi: false,
   // 使用单引号
