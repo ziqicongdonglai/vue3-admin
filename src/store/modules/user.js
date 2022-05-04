@@ -1,6 +1,7 @@
 import { login, getUserInfo } from '@/api/sys'
 import md5 from 'md5'
-import { setItem, getItem } from '@/utils/storage'
+import { setItem, getItem, removeAllItem } from '@/utils/storage'
+import router from '@/router'
 import { TOKEN } from '@/constant'
 export default {
   namespaced: true,
@@ -35,6 +36,12 @@ export default {
             reject(err)
           })
       })
+    },
+    logout() {
+      this.commit('user/setToken', '')
+      this.commit('user/setUserInfo', {})
+      removeAllItem()
+      router.push('/login')
     },
     async getUserInfo(context) {
       const res = await getUserInfo()
