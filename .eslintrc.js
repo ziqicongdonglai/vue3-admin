@@ -13,6 +13,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     'vue/multi-word-component-names': 'off',
     'no-unused-vars': 'warn',
+    // 加了如下两行解决运行问题
     'eslint-disable-next-line': 'off',
     'no-undef': 'off'
   }
