@@ -18,7 +18,7 @@ const messages = {
 }
 
 // 创建 locale 语言变量
-const locale = 'zh'
+// const locale = 'zh'
 
 /**
  * 返回当前 lang
