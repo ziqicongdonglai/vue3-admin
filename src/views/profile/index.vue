@@ -28,6 +28,7 @@ import ProjectCard from './components/ProjectCard.vue'
 import Chapter from './components/Chapter.vue'
 import Feature from './components/Feature.vue'
 import Author from './components/Author.vue'
+import { watchSwitchLang } from '@/utils/i18n'
 import { getFeature } from '@/api/user'
 import { ref } from 'vue'
 
@@ -39,6 +40,9 @@ const getFeatureData = async () => {
 }
 
 getFeatureData()
+
+// 监听语言切换
+watchSwitchLang(getFeatureData)
 </script>
 
 <style lang="scss" scoped>
