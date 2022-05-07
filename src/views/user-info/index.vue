@@ -1,10 +1,12 @@
 <template>
   <div class="user-info-container">
     <el-card class="print-box">
-      <el-button type="primary">{{ $t('msg.userInfo.print') }}</el-button>
+      <el-button type="primary" v-print="printObj" :loading="printLoading">
+        {{ $t('msg.userInfo.print') }}
+      </el-button>
     </el-card>
     <el-card>
-      <div class="user-info-box">
+      <div id="userInfoBox" class="user-info-box">
         <!-- 标题 -->
         <h2 class="title">{{ $t('msg.userInfo.title') }}</h2>
 
@@ -62,51 +64,6 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-.print-box {
-  margin-bottom: 20px;
-  text-align: right;
-}
-.user-info-box {
-  width: 1024px;
-  margin: 0 auto;
-  .title {
-    text-align: center;
-    margin-bottom: 18px;
-  }
-  .header {
-    display: flex;
-    ::v-deep .el-descriptions {
-      flex-grow: 1;
-    }
-    .avatar {
-      width: 187px;
-      box-sizing: border-box;
-      padding: 30px 20px;
-      border: 1px solid #ebeef5;
-      border-left: none;
-    }
-    .remark {
-      margin-right: 12px;
-    }
-  }
-  .body {
-    ul {
-      list-style: none;
-      li {
-        span {
-          margin-right: 62px;
-        }
-      }
-    }
-  }
-  .foot {
-    margin-top: 42px;
-    text-align: right;
-  }
-}
-</style>
-
 <script setup>
 import { userDetail } from '@/api/user-manage'
 import { watchSwitchLang } from '@/utils/i18n'
@@ -128,6 +85,24 @@ getUserDetail()
 
 // 语言切换
 watchSwitchLang(getUserDetail)
+
+// 打印相关
+const printLoading = ref(false)
+
+const printObj = {
+  // 打印区域
+  id: 'userInfoBox',
+  // 打印标题
+  popTitle: 'imooc-vue-element-admin',
+  // 打印前
+  beforeOpenCallback(vue) {
+    printLoading.value = true
+  },
+  // 执行打印
+  openCallback(vue) {
+    printLoading.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>
