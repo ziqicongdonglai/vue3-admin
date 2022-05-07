@@ -2,10 +2,8 @@
   <div class="user-manage-container">
     <el-card class="header">
       <div>
-        <el-button type="primary" @click="onImportExcelClick">
-          {{ $t('msg.excel.importExcel') }}
-        </el-button>
-        <el-button type="success">
+        <el-button type="primary" @click="onImportExcelClick"> {{ $t('msg.excel.importExcel') }}</el-button>
+        <el-button type="success" @click="onToExcelClick">
           {{ $t('msg.excel.exportExcel') }}
         </el-button>
       </div>
@@ -30,7 +28,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('msg.excel.openTime')">
+        <el-table-column prop="openTime" :label="$t('msg.excel.openTime')">
           <template #default="{ row }">
             {{ $filters.dateFilter(row.openTime) }}
           </template>
@@ -56,16 +54,18 @@
       >
       </el-pagination>
     </el-card>
+
+    <export-to-excel v-model="exportToExcelVisible"></export-to-excel>
   </div>
 </template>
 
 <script setup>
-import { ref, onActivated } from 'vue'
+import { ref } from 'vue'
+import { getUserManageList } from '@/api/user-manage'
+import { watchSwitchLang } from '@/utils/i18n'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { getUserManageList, deleteUser } from '@/api/user-manage'
-import { watchSwitchLang } from '@/utils/i18n'
-import { ElMessageBox } from 'element-plus'
+import ExportToExcel from './components/Export2Excel.vue'
 
 // 数据相关
 const tableData = ref([])
@@ -84,9 +84,6 @@ const getListData = async () => {
 getListData()
 // 监听语言切换
 watchSwitchLang(getListData)
-
-// 处理导入用户后数据不重新加载的问题
-onActivated(getListData)
 
 // 分页相关
 /**
@@ -126,6 +123,14 @@ const onRemoveClick = (row) => {
     // 重新渲染数据
     getListData()
   })
+}
+
+/**
+ * excel 导出点击事件
+ */
+const exportToExcelVisible = ref(false)
+const onToExcelClick = () => {
+  exportToExcelVisible.value = true
 }
 </script>
 
