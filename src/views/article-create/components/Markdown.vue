@@ -15,6 +15,14 @@ import '@toast-ui/editor/dist/i18n/zh-cn'
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { watchSwitchLang } from '@/utils/i18n'
+import { commitArticle } from './commit'
+
+const props = defineProps({
+  title: {
+    required: true,
+    type: String
+  }
+})
 
 // Editor实例
 let mkEditor
@@ -35,6 +43,19 @@ const initEditor = () => {
   })
 
   mkEditor.getMarkdown()
+}
+
+const emits = defineEmits(['onSuccess'])
+// 处理提交
+const onSubmitClick = async () => {
+  // 创建文章
+  const res = await commitArticle({
+    title: props.title,
+    content: mkEditor.getHTML()
+  })
+  alert(JSON.stringify(res))
+  mkEditor.reset()
+  emits('onSuccess')
 }
 
 watchSwitchLang(() => {
