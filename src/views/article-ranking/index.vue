@@ -40,11 +40,17 @@
 </template>
 
 <script setup>
-import { ref, onActivated } from 'vue'
+import { ref, onActivated, onMounted } from 'vue'
 import { getArticleList } from '@/api/article'
 import { watchSwitchLang } from '@/utils/i18n'
-// import {  } from './dynamic'
+import { tableRef, initSortable } from './sortable'
 import { dynamicData, selectDynamicLabel, tableColumns } from './dynamic'
+
+// 表格拖拽相关
+onMounted(() => {
+  initSortable(tableData, getListData)
+})
+
 /**
  * size 改变触发
  */
@@ -106,5 +112,11 @@ onActivated(getListData)
     margin-top: 20px;
     text-align: center;
   }
+}
+
+::v-deep(.sortable-ghost) {
+  opacity: 0.6;
+  color: #fff !important;
+  background: #304156 !important;
 }
 </style>
