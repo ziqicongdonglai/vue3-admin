@@ -42,10 +42,12 @@ import HeaderSearch from '@/components/HeaderSearch'
 import Guide from '@/components/Guide'
 import {} from 'vue'
 import { useStore } from 'vuex'
+import { resetRouter } from '@/router'
 
 // 退出登录处理
 const store = useStore()
 const logout = () => {
+  resetRouter()
   store.dispatch('user/logout')
 }
 </script>
